@@ -28,3 +28,30 @@ Connection successful!
   "payload": "Lab connection successful!"
 }
 
+---
+
+## 3. Security Hardening & Access Control Lists (ACLs)
+To elevate the broker deployment from a default "open" configuration to an enterprise-ready zero-trust architecture, strict authentication and topic isolation boundaries were applied.
+
+### Implementation Blueprint
+1. **Cryptographic Credential Generation:** Used the internal container tool `mosquitto_passwd` to create an encrypted, hashed password file mapping a dedicated user:
+   ```bash
+   docker exec -it iot_broker mosquitto_passwd -b /mosquitto/config/password.txt sensor_admin Stunna@Pass123!
+
+user sensor_admin
+topic readwrite telemetry/#
+
+allow_anonymous false
+password_file /mosquitto/config/password.txt
+acl_file /mosquitto/config/acl.conf
+
+$ docker exec -it iot_broker mosquitto_sub -t telemetry/test
+Connection Refused: not authorized
+
+$ docker exec -it iot_broker mosquitto_sub -t telemetry/test -u sensor_admin -P Stunna@Pass123!
+# System stands by securely...
+secure connection verified!
+
+$ docker exec -it iot_broker mosquitto_pub -t telemetry/test -u sensor_admin -P Stunna@Pass123! -m "secure connection verified!"
+
+
