@@ -69,4 +69,32 @@ The system validation logs below verify that the broker successfully handles zer
 
 $ docker exec -it iot_broker mosquitto_pub -t telemetry/test -u sensor_admin -P Stunna@Pass123! -m "secure connection verified!"
 
+---
+
+## 4. Case Study: Hardening Healthcare IoT Environments
+
+### Architectural Objective
+Implement a multi-tenant, least-privilege access model inside a simulated hospital network. The environment isolates critical life-support hardware (**Smart Infusion Pumps**) from administrative tracking screens (**Nursing Central Dashboards**), preventing lateral network traversal if a single credential layer is compromised.
+
+### Security Configurations
+
+1. **Granular Identity Mapping:** Generated distinct cryptographically isolated user profiles within the shared security container database:
+   * `infusion_pump_01` (Hardware Client)
+   * `nursing_station_04` (Administrative Monitor)
+
+2. **Network Microsegmentation (medical_acl.conf):** Enforced a zero-trust topic structure to separate raw telemetry generation from structural system access:
+   ```text
+   # Infusion Pump Profile: Allowed only to broadcast vital statistics
+   user infusion_pump_01
+   topic write hospital/floors/4/pumps/infusion_pump_01
+
+   # Nursing Monitor Profile: Restricted exclusively to reading active telemetry streams
+   user nursing_station_04
+   topic read hospital/floors/4/pumps/#
+
+$ docker exec -it iot_broker mosquitto_sub -t hospital/floors/4/pumps/infusion_pump_01 -u nursing_station_04 -P StationSecure789!
+Dosage Rate: 5mL/h - Status: Normal  <-- Live broadcast successfully intercepted
+
+$ docker exec -it iot_broker mosquitto_pub -t hospital/floors/4/pumps/infusion_pump_01 -u infusion_pump_01 -P PumpSecurePass789! -m "Dosage Rate: 5mL/h - Status: Normal"
+
 
