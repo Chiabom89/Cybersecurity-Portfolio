@@ -97,4 +97,6 @@ Dosage Rate: 5mL/h - Status: Normal  <-- Live broadcast successfully intercepted
 
 $ docker exec -it iot_broker mosquitto_pub -t hospital/floors/4/pumps/infusion_pump_01 -u infusion_pump_01 -P PumpSecurePass789! -m "Dosage Rate: 5mL/h - Status: Normal"
 
+![Exercise 2 - Secure Hospital Stream Validation](exercise2_medical_stream.png)
+
 
