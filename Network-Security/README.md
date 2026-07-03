@@ -47,3 +47,21 @@ By running raw hexadecimal and ASCII packet layout extractions via `tshark -r io
 ### 3. Engineering Countermeasures & Mitigation Strategy
 * **Enforce Transport Layer Security (TLS):** Transition all raw unencrypted TCP socket pathways to encrypted application profiles (such as MQTT over TLS) to negate packet sniffing and injection vulnerabilities.
 * **Network Segmentation Controls:** Deploy explicit Access Control Lists (ACLs) to structurally isolate edge nodes, completely preventing unauthorized internal node-to-node visibility or malicious command injection probes.
+
+
+## Lab Scenario: Secure Access Control Matrix Configuration (Mosquitto Hardening)
+
+### 1. Objective & Threat Vector Mitigation
+Following the discovery of an unauthenticated administrative command injection on the network wire (`testCMD:SHUTDOWN_COOL`), the MQTT telemetry broker configuration was hardened to restrict topic traversal and completely eliminate anonymous discovery profiles.
+
+- **Target Service Engine:** Eclipse Mosquitto MQTT Broker
+- **Policy Matrices Created:** `mosquitto.conf`, `medical_acl.conf`
+
+### 2. Applied Security Policy
+An Access Control List (ACL) framework was engineered to enforce strict Role-Based Access Control (RBAC):
+* **Anonymous Access:** Explicitly disabled (`allow_anonymous false`).
+* **`sensor_node` Profile:** Restricted to write-only permissions on data telemetry channels (`vax/telemetry`).
+* **`admin_console` Profile:** Granted complete read/write access to alerts and command delivery roots.
+
+### 3. Verification & Validation Metrics
+Testing confirmed that the broker actively drops unauthenticated attempts to connect or publish data across the control layer. This successfully prevents unauthorized lateral movement and command injection across the IoT network architecture.
