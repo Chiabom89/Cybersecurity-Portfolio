@@ -100,3 +100,20 @@ $ docker exec -it iot_broker mosquitto_pub -t hospital/floors/4/pumps/infusion_p
 ![Exercise 2 - Secure Hospital Stream Validation](exercise2_medical_stream.png)
 
 
+# Hardened Medical IoT Core Transport Matrix
+
+This repository tracks the active implementation of an iron-clad infrastructure security layer designed to protect medical IoT telemetry data streams in transit and isolate host endpoints from external exploitation loops.
+
+##  Integrated Security Implementations
+
+### 1. Cryptographic Data In-Transit Protection (MQTTS)
+* **Strategy:** Eradicated the unencrypted cleartext default port `1883`. 
+* **Execution:** Utilized `openssl` to mint a dedicated local root Certificate Authority (CA) and sign structural server certificates. Upgraded the broker configuration to mandate secure TLS transactions exclusively over Port **`8883`**.
+
+### 2. Perimeter Audit Automation
+* **Strategy:** Active attack surface mapping.
+* **Execution:** Utilized the `nmap` engine to sweep localized virtual network layers, verifying active port states (`8883/tcp open secure-mqtt`) and auditing application fingerprints against unauthorized leaks.
+
+### 3. Host Hardening & Sandbox Containment
+* **Strategy:** Privilege dropping via strict environment isolation boundaries.
+* **Execution:** Built a containerized deployment image based on an immutable filesystem map. Stripped administrative `root` interaction parameters, dropping runtime execution privileges down to a restricted, isolated system daemon user (`message+` / `mosquitto`).
