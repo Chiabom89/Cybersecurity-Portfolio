@@ -1,6 +1,10 @@
 # Network-Security
 # Network Security & Packet Analysis
 
+This directory contains hands-on labs focused on active network reconnaissance,protocol analysis, and detecting security anomalities in IoT and standard network environment.
+
+---
+
 Project Title: WSL Network Reconnaissance Environment
 Objective:
 
@@ -83,9 +87,7 @@ alias nmap-version='/usr/bin/nmap -sT -sV -p 22,80,9929,31337 scanme.nmap.org 2>
 alias nmap-scripts='/usr/bin/nmap -sT -sC -p 22,80 scanme.nmap.org 2>/dev/null'
 
 
-------
-
-
+---
 
 
 Module 2: DNS Traffic Analysis & Protocol Investigation
@@ -130,9 +132,8 @@ During this exercise, the local host client machine (`192.168.1.117`) initiated 
 
 * **Raw Network Capture Log:** [Download Packet Capture (.pcapng)](./dns_traffic_analysis.pcapng)
 
+
 ---
-
-
 
 
 Module 3: IoT Protocol Analysis & MQTT Cleartext Leak Mitigation
