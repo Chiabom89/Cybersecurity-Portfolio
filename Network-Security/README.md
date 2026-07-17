@@ -39,7 +39,7 @@ An engineering log documenting the setup, optimization, and execution of a local
 
 ---
 
-## 🛠️ Project Overview & Engineering Decisions
+##  Project Overview & Engineering Decisions
 
 When building a security lab on a local machine with virtualization restrictions, leveraging **Windows Subsystem for Linux (WSL)** is a highly efficient alternative. However, running security tools across a translation layer introduces unique networking challenges. 
 
@@ -52,7 +52,7 @@ This project documents the step-by-step engineering decisions made to bypass the
 
 ---
 
-## 🧭 The Reconnaissance Workflow (Phase 1 to Phase 3)
+##  The Reconnaissance Workflow (Phase 1 to Phase 3)
 
 Rather than executing random commands, a structured, methodology-driven approach was utilized to gather intelligence on the target host (`scanme.nmap.org`).
 
@@ -76,7 +76,7 @@ Rather than executing random commands, a structured, methodology-driven approach
 
 ---
 
-## 🚀 Automation & Workflow Optimization
+##  Automation & Workflow Optimization
 
 To prevent command fatigue and ensure consistent execution across future security assessments, the following custom aliases were engineered into the local shell configuration (`~/.bashrc`):
 
